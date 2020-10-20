@@ -5,9 +5,9 @@ class Users extends Component {
 
     state ={
         users: [
-            {name: "Juan", age: 22},
-            {name: "Pedro", age: 25},
-            {name: "Eleazar", age: 27}
+            {name: "Juan", age: 22, key: 1},
+            {name: "Pedro", age: 25, key: 2},
+            {name: "Eleazar", age: 10, key: 3}
         ],
         title: "Users List"
     }
@@ -15,14 +15,13 @@ class Users extends Component {
     makeMeYounger = () => {
         // this.state.users Wrong code
         // use setState() to change state value
-        this.setState({
-            users: [
-                {name: "Juan", age: 1},
-                {name: "Pedro", age: 1},
-                {name: "Eleazar", age: 1}
-            ],
-            title: "Hahaha"
-        })
+        const newState = this.state.users.map((user) =>{
+            const tempUser = user;
+            tempUser.age < 10 ? tempUser.age = 0 : tempUser.age -= 10;
+            return tempUser;
+        });
+
+        this.setState({newState});
     }
 
     render(){
@@ -33,9 +32,12 @@ class Users extends Component {
                 <button onClick={this.makeMeYounger}>Update Age</button>
                 <br/>
                 <h1>{this.state.title}</h1>
-                <User age={this.state.users[0].age}>{this.state.users[0].name}</User>
-                <User age={this.state.users[1].age}>{this.state.users[1].name}</User>
-                <User age={this.state.users[2].age}>{this.state.users[2].name}</User>
+                {
+                    this.state.users.map((user) => {
+                        console.log(user);
+                        return <User age={user.age} key={user.key}>{user.name}</User>
+                    })
+                }
             </div>
         )
 
